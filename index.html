@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="books.js"></script>
+    <link rel="icon" href="local_library_material_icon.svg" />
     <title>Book Library</title>
   </head>
 
@@ -17,32 +18,33 @@
       <p>for book lovers</p>
     </header>
     <main>
-      <div>
+      <div class="shelf-heading">
         <h2>Your Bookshelf</h2>
         <!-- <a href="/addBook.html">Add a Book</a> -->
         <button class="add">Add a Book</button>
-        <dialog class="modal">
-          <div>
-            <h2>Add Book to Bin</h2>
-            <button class="cancel" value="cancel" formmethod="dialog">X</button>
-          </div>
-          <form>
-            <label for="title">Title
-              <input class="input" name="title" type="text" required>
-            </label>
-            <label for="author">Author
-              <input class="input" name="author" type="text" required>
-            </label>
-            <label for="pages">Number of Pages
-              <input class="input" name="pages" type="number" required>
-            </label>
-            <label for="read">Read
-              <input class="input" name="read" type="checkbox" required>
-            </label>
-            <button type="submit" value="default" class="submit">Add</button>
-          </form>
-        </dialog>
       </div>
+      <dialog class="modal">
+        <div class="form-heading">
+          <h2>Add Book to Bin</h2>
+          <button class="cancel" value="cancel" formmethod="dialog">X</button>
+        </div>
+        <form>
+          <label for="title">Title
+          </label>
+          <input class="input" name="title" type="text" required>
+          <label for="author">Author
+          </label>
+          <input class="input" name="author" type="text" required>
+          <label for="pages">Number of Pages
+          </label>
+          <input class="input page-numb" name="pages" type="number" required>
+          <label for="read">Read
+          </label>
+          <input class="input read" name="read" type="checkbox" required>
+          <button type="submit" value="default" class="submit">Add</button>
+          <p class="invalid-input"></p>
+        </form>
+      </dialog>
 
       <div class="shelf">
         <!-- <div class="card">
