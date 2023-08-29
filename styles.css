@@ -1,10 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Geo&family=Space+Mono:wght@400;700&display=swap");
 :root {
 	--perrywinkle: #9198e5;
+	--perrywinkle-trans: #9198e5f1;
 	--majestic-eggplant: #4c3c86;
 	--love-dust: #e495e1;
 	--love-dust-trans: #e495e138;
+	--nile: #b2c47c;
 }
 
 html,
@@ -41,6 +42,10 @@ button {
 button:hover {
 	cursor: pointer;
 }
+h1 {
+	font-family: "Geo", sans-serif;
+	font-size: 3.6rem;
+}
 h1,
 h2,
 h3,
@@ -67,7 +72,7 @@ ul {
 }
 
 header {
-	margin: 4rem 20% 0rem 20%;
+	margin: 2.8rem 20% 0rem 20%;
 	padding: 0.6rem;
 	text-align: center;
 
@@ -75,26 +80,29 @@ header {
 	border-bottom: none;
 	border-top-left-radius: 0.4rem;
 	border-top-right-radius: 0.4rem;
-	/* background: var(--majestic-eggplant); */
+}
+header p {
+	font-family: "Geo", sans-serif;
+	font-size: 2rem;
+	color: var(--nile);
 }
 
 dialog {
 	padding: 2rem 4rem;
 
-	border: 3px solid #ffffff;
+	border: 3px solid white;
 	border-radius: 2rem;
-	background: radial-gradient(white, #9198e5f1);
-	/* background: rgba(255, 255, 255, 0.935); */
+	background: radial-gradient(white, var(--perrywinkle-trans));
 }
 form {
 	display: grid;
+	align-items: center;
 	grid-template-columns: 1fr 1fr;
 	gap: 1rem;
-	background: white;
-	/* border: 1px solid pink; */
 	padding: 2rem 2.4rem;
+
 	border-radius: 1.4rem;
-	align-items: center;
+	background: white;
 }
 .form-heading {
 	display: flex;
@@ -144,8 +152,15 @@ form label {
 }
 .add {
 	border-top-right-radius: 0.6rem;
+	background: var(--nile);
+	color: var(--majestic-eggplant);
+	border: 2px solid var(--perrywinkle);
+	border-bottom: 1px solid var(--perrywinkle);
 }
-
+.add:hover {
+	background: var(--majestic-eggplant);
+	color: white;
+}
 .shelf-heading {
 	display: flex;
 	justify-content: space-between;
@@ -174,15 +189,19 @@ form label {
 }
 .card {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr auto;
+	grid-template-rows: 1fr auto auto;
 	padding: 1rem 1.6rem;
 	max-width: 300px;
+	gap: 0.4rem;
 
-	border: 2px solid var(--perrywinkle);
+	border: 2px solid var(--nile);
 	border-radius: 0.2rem;
 	background: var(--love-dust-trans);
-	align-items: center;
+}
+.title-div {
+	grid-column: 1 / 5;
+	align-self: center;
 }
 .card button {
 	grid-column: 5 / 6;
@@ -191,18 +210,12 @@ form label {
 	justify-self: end;
 
 	border: 2px solid var(--love-dust);
-	/* background: none; */
 	border-radius: 100%;
 	font-size: 12px;
 	font-weight: 700;
 	color: white;
 }
 .card h3 {
-	grid-column: 1 / 5;
-	grid-row: 1;
-	/* border: 1px solid var(--perrywinkle); */
-	background: var(--majestic-eggplant);
-	border-radius: 1rem;
 	text-align: center;
 }
 .by {
@@ -213,14 +226,21 @@ form label {
 .author-name {
 	grid-column: 2 / 6;
 	grid-row: 2 / 3;
+	color: var(--nile);
 }
 .pages {
 	grid-column: 1 / 4;
 	grid-row: 3 / 4;
 }
-.read-bool {
-	grid-column: 4 / 6;
+
+.read-div {
+	display: flex;
+	justify-content: space-around;
+
+	grid-column: 3 / 6;
 	grid-row: 3 / 4;
+}
+.read-div input {
 	justify-self: end;
 }
 .invalid-input {

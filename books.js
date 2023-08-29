@@ -2,10 +2,10 @@
 const myLibrary = [];
 
 /** Dummy Data: */
-let theHobbit = ["The Hobbit", "J.R.R. Tolkien", 295, "on"];
-let theFellowship = ["Women Talking", "Miriam Toews", 408, "on"];
-let kindred = ["Kindred", "Octavia Butler", 242, "on"];
-let persuasion = ["Persuasion", "Jane Austen", 280, "on"];
+let theHobbit = ["The Hobbit", "J.R.R. Tolkien", 295, "Read"];
+let theFellowship = ["Women Talking", "Miriam Toews", 408, "Unread"];
+let kindred = ["Kindred", "Octavia Butler", 242, "Read"];
+let persuasion = ["Persuasion", "Jane Austen", 280, "Read"];
 
 /** Book Object: */
 function Book(title, author, pages, read) {
@@ -14,13 +14,14 @@ function Book(title, author, pages, read) {
 	this.pages = pages;
 	this.read = read;
 	this.id = this.getRandomID();
-	this.reportBook = function () {
-		let readRes;
-		read === "on" ? (readRes = "read") : (readRes = "not yet read");
-		let res = `${title} by ${author}, ${pages}, ${readRes}`;
-		return res;
-	};
 }
+Book.prototype.toggleRead = function (status) {
+	if (status === true) {
+		this.read = "Read";
+	} else {
+		this.read = "Unread";
+	}
+};
 
 Book.prototype.getRandomID = function () {
 	let randomNumb = Math.floor(Math.random() * (500 - 1 + 1)) + 1;
@@ -83,7 +84,11 @@ function handleSubmit(e) {
 				return;
 			}
 		} else if (el.type === "checkbox" && validForm === true) {
-			newBook.push(el.checked);
+			if (el.checked === true) {
+				newBook.push("Read");
+			} else {
+				newBook.push("Unread");
+			}
 		}
 	});
 
@@ -112,18 +117,26 @@ function handleDelete(e, bookToDelete) {
 
 function buildCard(book) {
 	let cardDiv = document.createElement("div");
+	let titleDiv = document.createElement("div");
 	let deleteBtn = document.createElement("button");
 	let titleH3 = document.createElement("h3");
 	let byP = document.createElement("p");
 	let authorP = document.createElement("p");
 	let pagesP = document.createElement("p");
+	let readDiv = document.createElement("div");
 	let readP = document.createElement("p");
+	let checkboxEl = document.createElement("input");
+
+	checkboxEl.type = "checkbox";
 
 	cardDiv.classList.add("card");
+	titleDiv.classList.add("title-div");
 	byP.classList.add("author-line", "by");
 	authorP.classList.add("author-line", "author-name");
 	pagesP.classList.add("extra-info", "pages");
+	readDiv.classList.add("read-div");
 	readP.classList.add("extra-info", "read-bool");
+	checkboxEl.classList.add("checkbox-el");
 
 	cardDiv.dataset.id = book.id;
 	cardDiv.id = book.id;
@@ -133,25 +146,34 @@ function buildCard(book) {
 	byP.textContent = "by";
 	authorP.textContent = book.author;
 	pagesP.textContent = book.pages + " pages";
+	readP.textContent = book.read;
 
-	if (book.read === true) {
-		readP.textContent = "Read";
+	if (book.read === "Read") {
+		checkboxEl.checked = true;
 	} else {
-		readP.textContent = "Not Read";
+		checkboxEl.checked = false;
 	}
 
+	titleDiv.appendChild(titleH3);
+	cardDiv.appendChild(titleDiv);
+	readDiv.appendChild(readP);
+	readDiv.appendChild(checkboxEl);
+
 	cardDiv.appendChild(deleteBtn);
-	cardDiv.appendChild(titleH3);
 	cardDiv.appendChild(byP);
 	cardDiv.appendChild(authorP);
 	cardDiv.appendChild(pagesP);
-	cardDiv.appendChild(readP);
+	cardDiv.appendChild(readDiv);
 
 	shelfEl.appendChild(cardDiv);
 
 	deleteBtn.addEventListener("click", (e) => {
 		handleDelete(e, book);
 	});
-}
 
-console.log(myLibrary);
+	checkboxEl.addEventListener("click", (e) => {
+		book.toggleRead(e.target.checked);
+		readP.textContent = book.read;
+		console.log(book);
+	});
+}
