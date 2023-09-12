@@ -7,11 +7,6 @@ let kindred = ["Kindred", "Octavia Butler", 242, "Read"];
 let persuasion = ["Persuasion", "Jane Austen", 280, "Read"];
 
 /** Book Object: */
-class Shelf {
-	shelf = [];
-	constructor() {}
-}
-
 class Book {
 	constructor(title, author, pages, read) {
 		this.title = title;
@@ -27,6 +22,7 @@ class Book {
 		let randomNumb = Math.floor(Math.random() * (500 - 1 + 1)) + 1;
 		return this.title[0] + this.author[0] + "-" + randomNumb;
 	}
+	deleteBook() {}
 }
 
 class Card {
@@ -83,7 +79,6 @@ class Card {
 	}
 
 	handleDelete(bookToDelete) {
-		// TODO: Also need to delete class instance!
 		bookToDelete.target.parentNode.remove();
 	}
 
@@ -103,20 +98,6 @@ class Card {
 		this.bindEvents(book);
 	}
 }
-
-const newBook1 = new Book(
-	"Bunnies in the Garden",
-	"Angie Banks",
-	140,
-	"Unread"
-);
-const newBook2 = new Book(
-	"Peonies in the Kitchen",
-	"Bruce Bench",
-	7340,
-	"Read"
-);
-console.log(newBook1, newBook2);
 
 /** Select HTML Elements: */
 const display = (() => {
@@ -189,6 +170,21 @@ function addBookToLibrary(book) {
 }
 
 /** Add Dummy Data to myLibrary Array: */
+const newBook1 = new Book(
+	"Bunnies in the Garden",
+	"Angie Banks",
+	140,
+	"Unread"
+);
+const newBook2 = new Book(
+	"Peonies in the Kitchen",
+	"Bruce Bench",
+	7340,
+	"Read"
+);
+new Card(newBook1);
+new Card(newBook2);
+
 new Card(addBookToLibrary(theHobbit));
 new Card(addBookToLibrary(theFellowship));
 new Card(addBookToLibrary(kindred));
