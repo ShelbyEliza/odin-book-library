@@ -1,0 +1,29 @@
+// toggleRead() {
+// 	let status = this.read;
+// 	if (this.read === true) {
+// 		this.read = "Read";
+// 	} else {
+// 		this.read = "Unread";
+// 	}
+// }
+/**
+ *function Book(title, author, pages, read) {
+		this.title = title;
+		this.author = author;
+		this.pages = pages;
+		this.read = read;
+		this.id = this.getRandomID();
+}
+ */
+// class BookC {
+// 	constructor(title, author, pages, read) {
+// 		this.title = title;
+// 		this.author = author;
+// 		this.pages = pages;
+// 		this.read = read;
+// 		this.id = this.title[0] + this.author[0] + "-" + getRandomID();
+// 		function getRandomID() {
+// 			return Math.floor(Math.random() * (500 - 1 + 1)) + 1;
+// 		}
+// 	}
+// }
