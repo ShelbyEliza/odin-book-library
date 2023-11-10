@@ -2,10 +2,10 @@
 const myLibrary = [];
 
 /** Dummy Data: */
-let theHobbit = ["The Hobbit", "J.R.R. Tolkien", 295, "Read"];
-let theFellowship = ["Women Talking", "Miriam Toews", 408, "Unread"];
-let kindred = ["Kindred", "Octavia Butler", 242, "Read"];
-let persuasion = ["Persuasion", "Jane Austen", 280, "Read"];
+let theHobbit = ['The Hobbit', 'J.R.R. Tolkien', 295, 'Read'];
+let theFellowship = ['Women Talking', 'Miriam Toews', 408, 'Unread'];
+let kindred = ['Kindred', 'Octavia Butler', 242, 'Read'];
+let persuasion = ['Persuasion', 'Jane Austen', 280, 'Read'];
 
 /** Book Object: */
 function Book(title, author, pages, read) {
@@ -17,41 +17,98 @@ function Book(title, author, pages, read) {
 }
 Book.prototype.toggleRead = function (status) {
 	if (status === true) {
-		this.read = "Read";
+		this.read = 'Read';
 	} else {
-		this.read = "Unread";
+		this.read = 'Unread';
 	}
 };
 
 Book.prototype.getRandomID = function () {
 	let randomNumb = Math.floor(Math.random() * (500 - 1 + 1)) + 1;
-	return this.title[0] + this.author[0] + "-" + randomNumb;
+	return this.title[0] + this.author[0] + '-' + randomNumb;
 };
 
 /** Select HTML Elements: */
-const addNewBtn = document.querySelector(".add");
-const dialogEl = document.querySelector(".modal");
-const cancelBtn = document.querySelector(".cancel");
-const submitBtn = document.querySelector(".submit");
-const inputEls = document.querySelectorAll(".input");
-const shelfEl = document.querySelector(".shelf");
-const formEl = document.querySelector("#form");
-const invalidEl = document.querySelector(".invalid-input");
+const addNewBtn = document.querySelector('.add');
+const dialogEl = document.querySelector('.modal');
+const cancelBtn = document.querySelector('.cancel');
+const submitBtn = document.querySelector('.submit');
+const inputEls = document.querySelectorAll('.input');
+const shelfEl = document.querySelector('.shelf');
+const formEl = document.querySelector('form');
+const invalidEl = document.querySelector('.invalid-input');
+const title = document.getElementById('title');
+const author = document.getElementById('author');
+const pages = document.getElementById('pages');
+const titleError = document.getElementById('title-error');
+const authorError = document.getElementById('author-error');
+const pagesError = document.getElementById('pages-error');
+// console.log(titleError, authorError, pagesError);
 
 /** Add Event Listeners: */
-addNewBtn.addEventListener("click", (e) => {
+title.addEventListener('input', (event) => {
+	if (title.validity.valid) {
+		titleError.textContent = '';
+		titleError.className = 'error';
+	} else {
+		showError(title, titleError);
+	}
+});
+author.addEventListener('input', (event) => {
+	if (author.validity.valid) {
+		authorError.textContent = '';
+		authorError.className = 'error';
+	} else {
+		showError(author, authorError);
+	}
+});
+
+pages.addEventListener('input', (event) => {
+	if (pages.validity.valid) {
+		pagesError.textContent = '';
+		pagesError.className = 'error';
+	} else {
+		showError(pages, pagesError);
+	}
+});
+
+formEl.addEventListener('submit', (event) => {
+	if (!title.validity.valid) {
+		showError(title, titleError);
+		event.preventDefault();
+	}
+	if (!author.validity.valid) {
+		showError(author, authorError);
+		event.preventDefault();
+	}
+	if (!pages.validity.valid) {
+		showError(pages, pagesError);
+		event.preventDefault();
+	}
+	if (formEl.checkValidity()) {
+		event.preventDefault();
+		handleSubmit();
+	}
+});
+
+addNewBtn.addEventListener('click', (e) => {
 	dialogEl.showModal();
 });
 
-submitBtn.addEventListener("click", (e) => {
-	handleSubmit(e);
-});
-
-cancelBtn.addEventListener("click", () => {
-	invalidEl.textContent = "";
+cancelBtn.addEventListener('click', () => {
+	invalidEl.textContent = '';
 
 	dialogEl.close();
 });
+
+function showError(input, inputError) {
+	if (input.validity.valueMissing) {
+		inputError.textContent = 'You need to enter a value.';
+	} else if (input !== pages && input.validity.tooShort) {
+		inputError.textContent = `${input.id} should be at least ${input.minLength} characters; you entered ${input.value.length}.`;
+	}
+	inputError.className = 'error active';
+}
 
 /** Add Dummy Data to myLibrary Array: */
 addBookToLibrary(theHobbit);
@@ -68,32 +125,31 @@ function addBookToLibrary(book) {
 	return newBook;
 }
 
-function handleSubmit(e) {
-	e.preventDefault();
+function handleSubmit() {
 	let newBook = [];
 	let validForm = true;
 
 	inputEls.forEach((el) => {
-		if (el.type !== "checkbox" && validForm === true) {
+		if (el.type !== 'checkbox' && validForm === true) {
 			/** Check if inputs have content: */
 			if (el.value.length >= 1) {
 				newBook.push(el.value);
 			} else {
-				invalidEl.textContent = "Please enter valid input!";
+				invalidEl.textContent = 'Please enter valid input!';
 				validForm = false;
 				return;
 			}
-		} else if (el.type === "checkbox" && validForm === true) {
+		} else if (el.type === 'checkbox' && validForm === true) {
 			if (el.checked === true) {
-				newBook.push("Read");
+				newBook.push('Read');
 			} else {
-				newBook.push("Unread");
+				newBook.push('Unread');
 			}
 		}
 	});
 
 	if (validForm === true) {
-		invalidEl.textContent = "";
+		invalidEl.textContent = '';
 
 		let bookObj = addBookToLibrary(newBook);
 		buildCard(bookObj);
@@ -104,7 +160,7 @@ function handleSubmit(e) {
 }
 
 function handleDelete(e, bookToDelete) {
-	const cardsArray = [...document.querySelectorAll(".card")];
+	const cardsArray = [...document.querySelectorAll('.card')];
 
 	let elToDelete = cardsArray.find((el) => el.id === bookToDelete.id);
 	let indexToDelete = myLibrary.findIndex(
@@ -116,39 +172,39 @@ function handleDelete(e, bookToDelete) {
 }
 
 function buildCard(book) {
-	let cardDiv = document.createElement("div");
-	let titleDiv = document.createElement("div");
-	let deleteBtn = document.createElement("button");
-	let titleH3 = document.createElement("h3");
-	let byP = document.createElement("p");
-	let authorP = document.createElement("p");
-	let pagesP = document.createElement("p");
-	let readDiv = document.createElement("div");
-	let readP = document.createElement("p");
-	let checkboxEl = document.createElement("input");
+	let cardDiv = document.createElement('div');
+	let titleDiv = document.createElement('div');
+	let deleteBtn = document.createElement('button');
+	let titleH3 = document.createElement('h3');
+	let byP = document.createElement('p');
+	let authorP = document.createElement('p');
+	let pagesP = document.createElement('p');
+	let readDiv = document.createElement('div');
+	let readP = document.createElement('p');
+	let checkboxEl = document.createElement('input');
 
-	checkboxEl.type = "checkbox";
+	checkboxEl.type = 'checkbox';
 
-	cardDiv.classList.add("card");
-	titleDiv.classList.add("title-div");
-	byP.classList.add("author-line", "by");
-	authorP.classList.add("author-line", "author-name");
-	pagesP.classList.add("extra-info", "pages");
-	readDiv.classList.add("read-div");
-	readP.classList.add("extra-info", "read-bool");
-	checkboxEl.classList.add("checkbox-el");
+	cardDiv.classList.add('card');
+	titleDiv.classList.add('title-div');
+	byP.classList.add('author-line', 'by');
+	authorP.classList.add('author-line', 'author-name');
+	pagesP.classList.add('extra-info', 'pages');
+	readDiv.classList.add('read-div');
+	readP.classList.add('extra-info', 'read-bool');
+	checkboxEl.classList.add('checkbox-el');
 
 	cardDiv.dataset.id = book.id;
 	cardDiv.id = book.id;
 
-	deleteBtn.textContent = "X";
+	deleteBtn.textContent = 'X';
 	titleH3.textContent = book.title;
-	byP.textContent = "by";
+	byP.textContent = 'by';
 	authorP.textContent = book.author;
-	pagesP.textContent = book.pages + " pages";
+	pagesP.textContent = book.pages + ' pages';
 	readP.textContent = book.read;
 
-	if (book.read === "Read") {
+	if (book.read === 'Read') {
 		checkboxEl.checked = true;
 	} else {
 		checkboxEl.checked = false;
@@ -167,11 +223,11 @@ function buildCard(book) {
 
 	shelfEl.appendChild(cardDiv);
 
-	deleteBtn.addEventListener("click", (e) => {
+	deleteBtn.addEventListener('click', (e) => {
 		handleDelete(e, book);
 	});
 
-	checkboxEl.addEventListener("click", (e) => {
+	checkboxEl.addEventListener('click', (e) => {
 		book.toggleRead(e.target.checked);
 		readP.textContent = book.read;
 		console.log(book);

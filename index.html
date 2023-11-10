@@ -30,18 +30,24 @@
         <form>
           <label for="title">Title
           </label>
-          <input class="input" name="title" type="text" required>
+          <input id="title" class="input" name="title" type="text" required minlength="2" maxlength="40">
+          <span class="error" id="title-error" aria-live="polite"></span>
           <label for="author">Author
           </label>
-          <input class="input" name="author" type="text" required>
+          <input id="author" class="input" name="author" type="text" required minlength="2" maxlength="40">
+          <span class="error" id="author-error" aria-live="polite"></span>
+
           <label for="pages">Number of Pages
           </label>
-          <input class="input page-numb" name="pages" type="number" required>
+          <input id="pages" class="input page-numb" name="pages" type="number" required min="1" max="10000">
+          <span class="error" id="pages-error" aria-live="polite"></span>
+
           <label for="read">Read
           </label>
           <input class="input read" name="read" type="checkbox" required>
           <button type="submit" value="default" class="submit">Add</button>
           <p class="invalid-input"></p>
+
         </form>
       </dialog>
       <div class="shelf">
